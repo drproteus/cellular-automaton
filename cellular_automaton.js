@@ -1,3 +1,5 @@
+"use strict";
+
 var CellularAutomaton = {
   rule: function(state, neighbors) {
     if (state === 1) {
@@ -101,6 +103,8 @@ class Space {
     [[i-1,j-1],[i,j-1],[i+1,j-1],
       [i-1, j],[i+1, j],
       [i-1, j+1],[i,j+1],[i+1,j+1]].forEach(function(coordinates) {
+        coordinates[0] = (coordinates[0] + that.sizeX) % that.sizeX;
+        coordinates[1] = (coordinates[1] + that.sizeY) % that.sizeY;
         if (coordinates[0] >= 0 && coordinates[0] < that.sizeX &&
           coordinates[1] >= 0 && coordinates[1] < that.sizeY) {
             neighbors.push(that.grid[coordinates[0]][coordinates[1]]);
@@ -110,17 +114,14 @@ class Space {
   }
 
   getLiveNeighbors(i, j) {
-    var neighbors = [];
     var that = this;
-    [[i-1,j-1],[i,j-1],[i+1,j-1],
-      [i-1, j],[i+1, j],
-      [i-1, j+1],[i,j+1],[i+1,j+1]].forEach(function(coordinates) {
-        if (coordinates[0] >= 0 && coordinates[0] < that.sizeX &&
-          coordinates[1] >= 0 && coordinates[1] < that.sizeY && that.grid[coordinates[0]][coordinates[1]].state === 1) {
-            neighbors.push(that.grid[coordinates[0]][coordinates[1]]);
-          }
-      });
-    return neighbors;
+    return this.getNeighbors(i, j).filter(function(cell) {
+      if (cell.state === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
 
   toggleCellState(x, y) {
