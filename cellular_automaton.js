@@ -29,6 +29,12 @@ var CellularAutomaton = {
       callback(this.space);
     }
   },
+  toggleCellState: function(x, y) {
+    this.space.toggleCellState(x, y);
+  },
+  randomize: function() {
+    this.space.randomize();
+  },
   generations: 0
 }
 
@@ -42,6 +48,18 @@ class Cell {
   update(rule, neighbors) {
     this.state = rule(this.state, neighbors);
   }
+
+  toggleState() {
+    if (this.state === 0) {
+      this.state = 1;
+    } else if (this.state === 1) {
+      this.state = 0;
+    }
+  }
+
+  setRandomState() {
+     this.state = (Math.random() < 0.15 ? 1 : 0);
+  }
 }
 
 class Space {
@@ -52,8 +70,15 @@ class Space {
     for (var i = 0; i < sizeX; i++) {
       this.grid[i] = new Array(sizeY);
       for (var j = 0; j < sizeY; j++) {
-        var randomState = (Math.random() < 0.15 ? 1 : 0);
-        this.grid[i][j] = new Cell(i, j, randomState);
+        this.grid[i][j] = new Cell(i, j, 0);
+      }
+    }
+  }
+
+  randomize() {
+    for (var i = 0; i < this.sizeX; i++) {
+      for (var j = 0; j < this.sizeY; j++) {
+        this.grid[i][j].setRandomState();
       }
     }
   }
@@ -96,5 +121,11 @@ class Space {
           }
       });
     return neighbors;
+  }
+
+  toggleCellState(x, y) {
+    if (this.grid !== "undefined") {
+      this.grid[y][x].toggleState();
+    }
   }
 }

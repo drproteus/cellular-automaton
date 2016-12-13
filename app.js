@@ -11,23 +11,29 @@ var initialize = function() {
 var update = function() {
   window.gol.update();
   printDivwise();
+}
+
+var updateGenerationDisplay = function() {
   document.querySelector("#generation_count").innerHTML = window.gol.generations;
 }
 
 var printDivwise = function() {
   var html = "";
-  window.gol.space.grid.forEach(function(cellRow) {
+  window.gol.space.grid.forEach(function(cellRow, y) {
     html += '<div class="cellrow">'
-    cellRow.forEach(function(cell) {
+    cellRow.forEach(function(cell, x) {
+      var statestring;
       if (cell.state === 0) {
-        html += '<div class="cell dead"></div>';
+          statestring = "dead"; 
         } else {
-        html += '<div class="cell alive"></div>';
+          statestring = "alive";
         }
+        html += '<div class="cell '+statestring+'" data-x="'+x+'" data-y="'+y+'"></div>';
     });
     html += "</div>"
   });
   document.querySelector("#goldiv").innerHTML = html;
+  updateGenerationDisplay();
 }
 
 var printToHtml = function() {
@@ -44,6 +50,7 @@ var printToHtml = function() {
     html += "</pre>"
   });
   document.querySelector("#goldiv").innerHTML = html;
+  updateGenerationDisplay();
 }
 
 var start = function() {
@@ -57,5 +64,29 @@ var stop = function() {
   if (!window.paused) {
     window.clearInterval(window.tid);
     window.paused = true;
+  }
+}
+
+var randomize = function() {
+  initialize();
+  window.gol.randomize();
+  window.printDivwise();
+}
+
+window.onload = function() {
+  document.body.onclick = function(e) {
+    if (window.event) {
+      e = event.srcElement;
+    } else {
+      e = e.target;
+    }
+    if (e.className && e.className.indexOf('cell') != -1) {
+      var x = Number(e.dataset.x);
+      var y = Number(e.dataset.y);
+      if (window.gol !== "undefined") {
+        window.gol.toggleCellState(x, y);
+      }
+      window.printDivwise();
+    }
   }
 }

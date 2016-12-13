@@ -29,10 +29,10 @@ div.cell.alive:hover {
     background: rgba(0, 255, 0, 0.5);
 }
 div.cell.dead {
-    background: black;
+    background: #AAA;
 }
 div.cell.dead:hover {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(122, 122, 122, 0.5);
 }
 pre {
     margin: 0;
@@ -41,5 +41,8 @@ pre {
     width: 300px;
     margin: auto;
     margin-top: 20px;
+    text-align: center;
+}
+h1 {
     text-align: center;
 }
