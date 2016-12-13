@@ -1,0 +1,18 @@
+body {
+    background-color: #000;
+    color: #ddd;
+    font-family: monospace;
+}
+#goldiv {
+    text-align: center;
+    margin: auto;
+}
+pre {
+    margin: 0;
+}
+#controls {
+    width: 300px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
