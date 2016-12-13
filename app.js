@@ -5,12 +5,29 @@ var initialize = function() {
   if (window.tid) {
     window.clearInterval(window.tid);
   }
-  printToHtml();
+  printDivwise();
 }
 
 var update = function() {
   window.gol.update();
-  printToHtml();
+  printDivwise();
+  document.querySelector("#generation_count").innerHTML = window.gol.generations;
+}
+
+var printDivwise = function() {
+  var html = "";
+  window.gol.space.grid.forEach(function(cellRow) {
+    html += '<div class="cellrow">'
+    cellRow.forEach(function(cell) {
+      if (cell.state === 0) {
+        html += '<div class="cell dead"></div>';
+        } else {
+        html += '<div class="cell alive"></div>';
+        }
+    });
+    html += "</div>"
+  });
+  document.querySelector("#goldiv").innerHTML = html;
 }
 
 var printToHtml = function() {
@@ -27,7 +44,6 @@ var printToHtml = function() {
     html += "</pre>"
   });
   document.querySelector("#goldiv").innerHTML = html;
-  document.querySelector("#generation_count").innerHTML = window.gol.generations;
 }
 
 var start = function() {
@@ -43,4 +59,3 @@ var stop = function() {
     window.paused = true;
   }
 }
-  
