@@ -1,6 +1,8 @@
-Conway's Game of Life in the browser. Vanilla JS. 
+Conway's Game of Life in the browser, vanilla JS with no dependencies.
 
-TODO:
+[Demo](https://static.skinet.org/cellular-automata/)
+
+### TODO:
 * Make more flexible and store values in constants
 * Allow for space-wrapping
 * Customizable colors
